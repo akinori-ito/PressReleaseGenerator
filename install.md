@@ -12,7 +12,7 @@ ScriptでAIアプリを公開するまでの流れを説明します。
 
 AI（Gemini）を利用するための専用の「鍵」を取得します。
 
-1.  [[Google AI Studio]{.underline}](https://aistudio.google.com/)
+1.  [[Google AI Studio]](https://aistudio.google.com/)
     にアクセスします。
 
 2.  利用規約が表示されたら、内容を確認してチェックを入れ、\[Continue\]
@@ -30,7 +30,7 @@ AI（Gemini）を利用するための専用の「鍵」を取得します。
 
 ## ステップ 2：Google Apps Script プロジェクトを作成する
 
-1.  [[Google ドライブ]{.underline}](https://drive.google.com/)
+1.  [[Google ドライブ]](https://drive.google.com/)
     を開きます。
 
 2.  左上の \[新規\] ＞ \[その他\] ＞ \[Google Apps Script\]
