@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+      #result { background: #f4f4f4; padding: 15px; border-radius: 5px; margin-top: 20px; white-space: pre-wrap; }
+    </style>
+  </head>
+  <body>
+    <h2>プレスリリース文生成</h2>
+    
+    <input type="file" id="pdfFile" accept="application/pdf"><br><br>
+    
+    <button onclick="uploadFile()">分析開始</button>
+
+    <div id="result">結果がここに表示されます...</div>
+
+    <script>
+      function uploadFile() {
+        const fileInput = document.getElementById('pdfFile');
+        const prompt = `アップロードした文書は新しく発表した論文です。この文書から、プレスリリース文を生成してください。
+        プレスリリースは次のような構造を持っています。
+        1. タイトル：研究の内容が達成したことと、それによって将来的に可能になる応用を、短い文で表します。例：「画期的な高分子導電性材料を開発～電気を通す服の実現に向けて～」
+        2. 発表のポイント：論文の新しい点、画期的な点、将来可能になる応用について、3つのポイントを箇条書きで表します。
+        3. 概要：発表の概要を2段落程度の文章で表します。
+        4. 研究の背景：なぜこの研究が必要になったのか、研究を必要とする社会的な課題は何かについて、2段落程度の文章で表します。
+        5. 今回の取り組み：今回の研究で新たに開発したこと、明らかになったことなどを、3段落程度で表します。
+        6. 今後の展開：この発表を応用することによって、近い将来どのような応用につながるか、社会課題をどのように解決するかについて、２段落程度の文章で表します。
+        7. 用語説明：一般的でない専門用語を解説します。
+        いずれも、できるだけ専門用語を使わず、高校生が理解できる程度の平易な文章で記述してください。
+        専門用語や略語を使用した場合は、7.の用語説明セクションでそれらの用語に関する説明を追加してください。
+        `;
+        const resultDiv = document.getElementById('result');
+
+        if (fileInput.files.length === 0) {
+          alert("PDFファイルを選択してください");
+          return;
+        }
+
+        const file = fileInput.files[0];
+        const reader = new FileReader();
+
+        resultDiv.innerText = "PDFを読み込んでいます...";
+
+        // ファイルをBase64として読み込む
+        reader.onload = function(e) {
+          const base64Data = e.target.result.split(',')[1]; // header部分を削除
+          const fileData = {
+            data: base64Data,
+            mimeType: file.type
+          };
+
+          resultDiv.innerText = "GeminiがPDFを解析中...";
+
+          // GASの関数を呼び出し
+          google.script.run
+            .withSuccessHandler(res => { resultDiv.innerText = res; })
+            .withFailureHandler(err => { resultDiv.innerText = "エラー: " + err; })
+            .processPdf(fileData, prompt);
+        };
+
+        reader.readAsDataURL(file);
+      }
+    </script>
+  </body>
+</html>
