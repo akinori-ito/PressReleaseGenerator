@@ -8,9 +8,9 @@ function doGet() {
  * @param {Object} fileData {data: Base64文字列, mimeType: 文字列}
  * @param {string} prompt ユーザーからの指示
  */
-function processPdf(fileData, prompt) {
+function processPdf(fileData, prompt, model) {
   const apiKey = PropertiesService.getScriptProperties().getProperty('GEMINI_API_KEY');
-  const model = 'gemini-2.5-flash'; // PDF解析には1.5系を使用
+  //const model = 'gemini-2.5-flash'; // PDF解析には1.5系を使用
   const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
 
   // Gemini APIのマルチモーダル用ペイロード
